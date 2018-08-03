@@ -1,53 +1,52 @@
-use std::collections::HashMap;
 use std::io;
+use std::collections::HashMap;
 fn main() {
-    println!("Hello, world!");
-    let mut values: Vec<i32> = Vec::new();
-    let mut n = String::new();
-    let mut num: i32;
-    println!("Enter the number of values you wish to input : ");
-    io::stdin().read_line(&mut n)
-    	.expect("Enter a valid number");
-    let n: i32 = n.trim().parse().unwrap();
-    for _i in 0..n {	
-    	let mut input_number = String::new();
-    	io::stdin().read_line(&mut input_number)
-    		.expect("Enter a valid input");
-    	num = input_number.trim().parse().unwrap();
-    	values.push(num);
-    }
-    println!("Mean : {}", mean(&values));
-    println!("Median : {}", median(&mut values));
-    println!("Mode : {}", mode(&values));
-}
-
-fn mean(list: &Vec<i32>)-> i32 {
-	let mut sum = 0;
-	for num in list.iter(){
-		sum += num;
+	println!("How many numbers do you want to enter ?");
+	let mut n = String::new();
+	io::stdin().read_line(&mut n).expect("Invalid input");
+	let n: i32 = n.trim().parse().expect("Enter valid number");
+	let mut values: Vec<i32> = Vec::new();
+	for _i in 0..n {
+		let mut num = String::new();
+		io::stdin().read_line(&mut num).expect("Invalid input");
+		let num: i32 = num.trim().parse().expect("Enter valid number");
+		values.push(num);
 	}
-	sum = sum /  list.len() as i32;
-	sum
+	let mean = mean(&values);
+	println!("Mean : {}", mean);
+	let median = median(&mut values);
+	println!("Median : {}", median);
+	let mode = mode(&values);
+	println!("Mode : {}", mode);
 }
 
-fn median(list: &mut Vec<i32>)-> i32 {
-	list.sort();
-	list[list.len()/2]
-}
-
-fn mode(list: &Vec<i32>)-> i32 {
-	let mut frequency = HashMap::new();
-	for item in list.iter(){
-		let count = frequency.entry(item).or_insert(0);
-		*count += 1;
+fn mean(values: &Vec<i32>) -> f64 {
+	let mut mean = 0.0;
+	for value in values {
+		mean += *value as f64;
 	}
-	let mut max: i32 = 0;
-	let mut max_key = 0; 
-	for (key, value) in frequency{
-		if value>=max {
-			max = value;
-			max_key = *key;
+	mean /= values.len() as f64;
+	mean
+}
+
+fn median(values: &mut Vec<i32>) -> i32 {
+	values.sort();
+	values[values.len()/2]
+}
+
+fn mode(values: &Vec<i32>) -> i32 {
+	let mut frequency: HashMap<i32, i32> = HashMap::new();
+	for value in values {
+		let mut num = frequency.entry(*value).or_insert(0);
+		*num += 1;
+	}
+	let mut max = 0;
+	let mut mode = 0;
+	for (key, value) in frequency.iter() {
+		if *value > max {
+			max = *value;
+			mode = *key;
 		}
 	}
-	max_key
+	mode
 }

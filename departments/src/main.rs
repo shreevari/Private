@@ -5,11 +5,10 @@ fn main() {
     let mut departments = HashMap::new();
     loop{
     	let mut instruction = String::new();
-    	println!("&");
+    	println!("$ ");
     	io::stdin().read_line(&mut instruction).expect("Reading failed");
-	    instruction = String::from(instruction.trim());
-	    instruction = instruction.to_lowercase();
-	    let instruction: Vec<&str> = instruction.split(' ').collect();
+	    instruction = instruction.trim().to_lowercase();
+	    let instruction: Vec<&str> = instruction.split_whitespace().collect();
 	    match instruction[0]{
 	    	"add" => {
 	    		let department = String::from(instruction[3]);
@@ -17,7 +16,7 @@ fn main() {
 	    		employees.push(String::from(instruction[1]));
 	    	},
 	    	"retrieve"=>{
-	    		let names = departments.get(&String::from(instruction[2]));
+	    		let names = departments.get(instruction[2]).unwrap();
 	    		println!("{:?}", names);
 	    	}
 	    	_ => break,
