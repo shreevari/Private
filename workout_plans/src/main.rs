@@ -1,8 +1,9 @@
 use std::thread;
 use std::time::Duration;
 use std::collections::HashMap;
-use std::collections::hash_map::Entry::Occupied;
-use std::collections::hash_map::Entry::Vacant;
+use std::collections::hash_map::Entry::{Occupied, Vacant};
+use std::hash::Hash;
+use std::cmp::Eq;
 fn main() {
     let simulated_user_specified_value = 10;
     let simulated_random_number = 7;
@@ -12,31 +13,38 @@ fn main() {
         simulated_random_number
     );
 }
-struct Cacher<T>
-    where T: Fn(u32) -> u32
+#[derive(Debug)]
+struct Cacher<T, U, V>
+    where 
+    U: Hash + Eq + Clone,
+    V: Clone,
+    T: Fn(U) -> V,
 {
     calculation: T,
-    values: HashMap<u32, u32>,
+    values: HashMap<U, V>,
 }
-impl<T> Cacher<T>
-    where T: Fn(u32) -> u32
+impl<T, U, V> Cacher<T, U, V>
+    where 
+    U: Hash + Eq + Clone,
+    V: Clone,
+    T: Fn(U) -> V,
 {
-    fn new(calculation: T) -> Cacher<T> {
+    fn new(calculation: T) -> Cacher<T, U, V> {
         Cacher {
             calculation,
             values: HashMap::new(),
         }
     }
 
-    fn value(&mut self, arg: u32) -> u32 {
-        match self.values.entry(arg) {
+    fn value(&mut self, arg: U) -> V{
+        match self.values.entry(arg.clone()) {
         	Occupied(occupied_entry) => {
-        		let value = *occupied_entry.get();
+        		let value = occupied_entry.get();
         		value.clone()
         	}
         	Vacant(vacant_entry) => {
         		let value = (self.calculation)(arg);
-        		vacant_entry.insert(value);
+        		vacant_entry.insert(value.clone());
         		value
         	}
         }
@@ -74,7 +82,7 @@ fn generate_workout(intensity: u32, random_number: u32) {
 fn call_with_different_values() {
     let mut c = Cacher::new(|a| a);
 
-    let v1 = c.value(1);
-    let v2 = c.value(2);
-    assert_eq!(v2, 2);
+    let v1 = c.value("yeah");
+    let v2 = c.value("no");
+    assert_eq!(v2, "no");
 }
