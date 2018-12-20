@@ -1,0 +1,14 @@
+/home/computer/repos/Private/csvtutor/target/debug/deps/libcsv-4d722d69a5532e3c.rlib: /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/lib.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/byte_record.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/deserializer.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/error.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/cookbook.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/reader.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/serializer.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/string_record.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/tutorial.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/writer.rs
+
+/home/computer/repos/Private/csvtutor/target/debug/deps/csv-4d722d69a5532e3c.d: /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/lib.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/byte_record.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/deserializer.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/error.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/cookbook.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/reader.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/serializer.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/string_record.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/tutorial.rs /home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/writer.rs
+
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/lib.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/byte_record.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/deserializer.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/error.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/cookbook.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/reader.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/serializer.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/string_record.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/tutorial.rs:
+/home/computer/.cargo/registry/src/github.com-1ecc6299db9ec823/csv-1.0.5/src/writer.rs:
