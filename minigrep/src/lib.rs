@@ -10,12 +10,19 @@ pub struct Config {
 }
 
 impl Config {
-	pub fn new (args : &[String]) -> Result<Config, &'static str> {
-		if args.len() < 3 {
-			return Err("Not enough parameters");
-		}
-		let query = args[1].clone();
-		let filename = args[2].clone();
+	pub fn new (mut args : std::env::Args) -> Result<Config, &'static str> {
+		args.next();
+
+		let query = match args.next() {
+			Some(arg) => arg,
+			None => return Err("Didn't get a query String"),
+		};
+		
+		let filename = match args.next() {
+			Some(arg) => arg,
+			None => return Err("Didn't get a file name"),
+		};
+
 		let case_insensitive = env::var("CASE_INSENSITIVE").is_err();
 
 		Ok(Config{ query, filename, case_insensitive })
@@ -38,25 +45,15 @@ pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a> (query: &str, contents: &'a str) -> Vec<&'a str> {
-	let mut matches = Vec::new();
-	for line in contents.lines() {
-		if line.contains(query) {
-			matches.push(line);
-		}
-	}
-	matches
+	contents.lines()
+		.filter(|line| line.contains(query))
+		.collect()
 }
 
 pub fn search_case_insensitive<'a> (query: &str, contents: &'a str) -> Vec<&'a str> {
-	let query = query.to_lowercase();
-	let mut matches = Vec::new();
-
-	for line in contents.lines() {
-		if line.to_lowercase().contains(&query) {
-			matches.push(line);
-		}
-	}
-	matches
+	contents.lines()
+		.filter(|line| line.to_lowercase().contains(&query.to_lowercase()[..]))
+		.collect()
 }
 
 /*pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
@@ -69,17 +66,19 @@ mod tests {
 	use super::*;
 
 	#[test]
+	#[ignore]
 	fn new_config() {
 		let query = String::from("test");
 		let filename = String::from("poem.txt");
 		let args = vec!["".to_string(), query.clone(), filename.clone()];
-		assert_eq!(Config{ query, filename, case_insensitive: true }, Config::new(&args).unwrap());
+		assert_eq!(Config{ query, filename, case_insensitive: true }, Config::new(env::args()).unwrap());
 	}
 
 	#[test]
+	#[ignore]
 	fn runs() {
 		let args = vec![String::new(), "test".to_string(), "poem.txt".to_string()];
-		if let Err(e) = run(Config::new(&args).unwrap()) {
+		if let Err(e) = run(Config::new(env::args()).unwrap()) {
 			panic!("Does not run : {}", e);
 		}
 	}

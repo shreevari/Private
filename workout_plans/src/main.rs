@@ -1,9 +1,9 @@
 use std::thread;
 use std::time::Duration;
 use std::collections::HashMap;
-use std::collections::hash_map::Entry::{Occupied, Vacant};
-use std::hash::Hash;
 use std::cmp::Eq;
+use std::hash::Hash;
+
 fn main() {
     let simulated_user_specified_value = 10;
     let simulated_random_number = 7;
@@ -13,57 +13,46 @@ fn main() {
         simulated_random_number
     );
 }
-#[derive(Debug)]
-struct Cacher<T, U, V>
-    where 
-    U: Hash + Eq + Clone,
-    V: Clone,
-    T: Fn(U) -> V,
+
+struct Cacher<T, U, V> 
+    where T: Fn(U) -> V,
+    U: Eq + Hash + Clone,
+    V: Clone
 {
     calculation: T,
-    values: HashMap<U, V>,
+    value: HashMap<U, V>,
 }
-impl<T, U, V> Cacher<T, U, V>
-    where 
-    U: Hash + Eq + Clone,
-    V: Clone,
-    T: Fn(U) -> V,
+
+impl<T, U, V> Cacher<T, U, V> 
+    where T: Fn(U) -> V,
+    U: Eq + Hash + Clone,
+    V:  Clone
 {
     fn new(calculation: T) -> Cacher<T, U, V> {
         Cacher {
             calculation,
-            values: HashMap::new(),
+            value: HashMap::new(),
         }
     }
-
-    fn value(&mut self, arg: U) -> V{
-        match self.values.entry(arg.clone()) {
-        	Occupied(occupied_entry) => {
-        		let value = occupied_entry.get();
-        		value.clone()
-        	}
-        	Vacant(vacant_entry) => {
-        		let value = (self.calculation)(arg);
-        		vacant_entry.insert(value.clone());
-        		value
-        	}
-        }
+    fn value(&mut self, arg: U) -> V {
+        (*self.value.entry(arg.clone()).or_insert((self.calculation)(arg))).clone()
     }
 }
+
 fn generate_workout(intensity: u32, random_number: u32) {
-    let mut expensive_result = Cacher::new(|num| {
-        println!("calculating slowly...");
+    let mut expensive_result = Cacher::new(|num|{
+        println!("Calculating slowly...");
         thread::sleep(Duration::from_secs(2));
         num
     });
 
     if intensity < 25 {
         println!(
-            "Today, do {} pushups!",
+            "Today do {} pushups",
             expensive_result.value(intensity)
         );
         println!(
-            "Next, do {} situps!",
+            "Today do {} pullups",
             expensive_result.value(intensity)
         );
     } else {
@@ -71,18 +60,33 @@ fn generate_workout(intensity: u32, random_number: u32) {
             println!("Take a break today! Remember to stay hydrated!");
         } else {
             println!(
-                "Today, run for {} minutes!",
+                "Today, run for {} minutes",
                 expensive_result.value(intensity)
             );
         }
     }
 }
 
-#[test]
-fn call_with_different_values() {
-    let mut c = Cacher::new(|a| a);
+#[cfg(test)]
 
-    let v1 = c.value("yeah");
-    let v2 = c.value("no");
-    assert_eq!(v2, "no");
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn call_with_different_values() {
+        let mut c = Cacher::new(|a| a);
+
+        let v1 = c.value(1);
+        let v2 = c.value(2);
+        assert_eq!(v2, 2);
+    }
+
+    #[test]
+    fn call_with_different_types() {
+        let mut c = Cacher::new(|a| a);
+
+        let v1 = c.value("this");
+        let v2 = c.value("is");
+        assert_eq!(v2, "is");
+    }
 }
