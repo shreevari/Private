@@ -1,0 +1,6 @@
+[package]
+name = "mgame"
+version = "0.1.0"
+authors = ["shreevari <shreevari.sp@protonmail.com>"]
+
+[dependencies]

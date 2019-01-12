@@ -1,0 +1,11 @@
+[workspace]
+
+members = [
+	"choprt",
+	"validstk",
+	"chfideal",
+	"intest",
+	"hp18",
+	"fancy",
+	"mgame",
+]
