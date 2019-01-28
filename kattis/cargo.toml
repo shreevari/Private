@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+	"tarifa",
+	"two_stones",
+	"time_loop",
+]
